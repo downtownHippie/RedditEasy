@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.IO;
 
 namespace PlanetaryGravityCalculator
@@ -20,12 +17,20 @@ namespace PlanetaryGravityCalculator
             {
                 string planetLine = sReader.ReadLine();
                 string[] splits = planetLine.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+                //Regex reg = new Regex(@"^.*, \d+, \d+$");
+                //MatchCollection matches = reg.Matches(planetLine);
                 string planetName = splits[0];
                 int planetRadius = Convert.ToInt32(splits[1]);
                 int planetDesity = Convert.ToInt32(splits[2]);
                 Planet planet = new Planet(planetRadius, planetDesity);
                 Console.WriteLine("{0}: {1:0.000}", planetName, planet.gravitationalForce(mass));
+                if (sReader.EndOfStream)
+                {
+                    Console.WriteLine("Reached end of stream before {0} planets read.", numPlanets);
+                    break;
+                }
             }
+            inFile.Close();
             Console.ReadLine();
         }
     }
